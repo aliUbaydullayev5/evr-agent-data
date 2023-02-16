@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import Container from './style'
 import LineImg from '../../assets/svg/Vectors.svg'
+import {useRouter} from "next/router";
 // import Image from "next/image";
 
 const Login = () => {
+
+    const router = useRouter()
 
     const [loginText, setLoginText] = useState('')
     const [passwordText, setPasswordText] = useState('')
@@ -29,8 +32,14 @@ const Login = () => {
         localStorage.removeItem('pass')
     }
 
-    const pushFunc = () => {
+    console.log(checkedState)
 
+    const pushFunc = () => {
+        if(checkedState){
+            localStorage.setItem('login', loginText)
+            localStorage.setItem('pass', passwordText)
+        }
+        router.push('/home')
     }
 
     return(
@@ -47,7 +56,9 @@ const Login = () => {
                 <div className={'submitButtonDiv'}>
                     <input type="submit" value="Submit" className={'submitButton'} onClick={()=> pushFunc()} />
                 </div>
-                <LineImg className={'lineImg'}/>
+                <div className={'lineImg'}>
+                    <LineImg />
+                </div>
             </Container.Inset>
         </Container>
     )

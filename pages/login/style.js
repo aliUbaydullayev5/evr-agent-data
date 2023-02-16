@@ -9,7 +9,7 @@ const Container = styled.div`
   
 `
 
-Container.Inset = styled.form`
+Container.Inset = styled.div`
   width: 80%;
   height: 90%;
   position: relative;
@@ -19,6 +19,8 @@ Container.Inset = styled.form`
     bottom: 0;
     width: 100%;
     left: 0;
+    display: flex;
+    justify-content: center;
   }
 
   display: flex;
