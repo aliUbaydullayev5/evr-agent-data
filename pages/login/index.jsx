@@ -13,7 +13,7 @@ const Login = () => {
 
     const [loginText, setLoginText] = useState('+998')
     const [passwordText, setPasswordText] = useState('')
-    const [checkedState, setCheckedState] = useState(null)
+    const [checkedState, setCheckedState] = useState(false)
 
     const login = useSelector((store)=> store.login)
 
@@ -33,7 +33,10 @@ const Login = () => {
 
     useEffect(()=> {
         if(login.status === 'warning') dispatch(startMessage({type: 'error', message: login.message, time: 3}))
-        else if(login.status === 'success') if(localStorage.getItem('accessToken')) router.push('/home')
+        else if(login.status === 'success') if(localStorage.getItem('accessToken')) {
+            router.push('/home')
+            dispatch(startMessage({type: 'success', message: 'Siz muvofiyaqatli kirdingiz', time: 3}))
+        }
     }, [login])
 
     const pushFunc = () => {
