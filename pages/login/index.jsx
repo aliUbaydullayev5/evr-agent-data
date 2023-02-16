@@ -61,9 +61,6 @@ const Login = () => {
                 <p className="title">Sign in</p>
                 <p className="subTitle">Sign in and start managing your candidates!</p>
 
-
-                {/*<input type="text" className={'customInput'} placeholder={'Login'} onChange={(e)=> setLoginText(e.target.value)} value={loginText} />*/}
-
                 <CustomInput
                     placeholder='Enter phone number'
                     onChange={(value) => setLoginText(value)}

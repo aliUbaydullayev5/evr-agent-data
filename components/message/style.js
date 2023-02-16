@@ -20,9 +20,7 @@ const Container = styled.div`
   width: 400px;
   min-height: 100px;
   border-radius: 13px;
-  //background: #fff;
-  //box-shadow: 0 4px 30px rgba(0, 0, 0, 0.81);
-  background: #1E3C72;
+  background: rgb(20,152,0);
   transition: .3s;
   z-index: 9999999999999;
   ${({hiddenState}) => hiddenFunc(hiddenState)}
@@ -52,14 +50,16 @@ Container.MessageArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  .title{
+
+  .title {
     font-size: 24px;
-    color: #fff; 
+    color: #fff;
     line-height: 26px;
   }
-  .desc{
+
+  .desc {
     font-size: 18px;
-    color: #A09E9E;
+    color: #000000;
     line-height: 22px;
   }
 `
@@ -67,6 +67,7 @@ Container.IconArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `
 
 export default Container
