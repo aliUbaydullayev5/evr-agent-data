@@ -29,8 +29,6 @@ const Login = () => {
         if(localStorage.getItem('remember') === 'yes') setCheckedState(true)
     }, [])
 
-
-
     useEffect(()=> {
         if(login.status === 'warning') dispatch(startMessage({type: 'error', message: login.message, time: 3}))
         else if(login.status === 'success') if(localStorage.getItem('accessToken')) {
@@ -51,10 +49,6 @@ const Login = () => {
         }
         dispatch(loginFetch({userName: loginText, password: passwordText}))
     }
-
-
-
-
     return(
         <Container>
             <Container.Inset>

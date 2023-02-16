@@ -8,12 +8,10 @@ const Container = styled.div`
   justify-content: center;
   
 `
-
 Container.Inset = styled.div`
   width: 80%;
   height: 90%;
   position: relative;
-
   .lineImg {
     position: absolute;
     bottom: 0;
@@ -22,13 +20,11 @@ Container.Inset = styled.div`
     display: flex;
     justify-content: center;
   }
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 30px;
-
   .title {
     font-style: normal;
     font-weight: 400;
@@ -37,7 +33,6 @@ Container.Inset = styled.div`
     text-align: center;
     color: #224957;
   }
-
   .subTitle {
     font-style: normal;
     font-weight: 400;
@@ -46,7 +41,6 @@ Container.Inset = styled.div`
     text-align: center;
     color: #224957;
   }
-
   .customInput {
     width: 300px;
     height: 45px;
@@ -59,7 +53,6 @@ Container.Inset = styled.div`
     line-height: 20px;
     color: #FFFFFF;
     padding: 0 18px;
-
   }
   >div {
     width: 300px;
@@ -89,7 +82,6 @@ Container.Inset = styled.div`
     cursor: pointer;
     transition: .3s;
   }
-
   .submitButtonDiv{
     :hover{
       .submitButton{
