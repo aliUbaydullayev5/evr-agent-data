@@ -1,11 +1,16 @@
 import Container, {Block, LogOutButton} from './style'
-import Root from "@/Root";
+import Root from "@/root";
 import LineImg from './../../assets/svg/Vectors.svg'
 import {useRouter} from "next/router";
 
 const HomeComponent = () => {
 
     const router = useRouter()
+
+    const clearTokenLogout = () => {
+        localStorage.removeItem('accessToken')
+        router.push('/login')
+    }
 
     return(
         <Root>
@@ -20,7 +25,7 @@ const HomeComponent = () => {
                 <div className={'lineImg'}>
                     <LineImg />
                 </div>
-                <LogOutButton onClick={()=> router.push('/login')}>
+                <LogOutButton onClick={()=> clearTokenLogout()}>
                     Log Out
                 </LogOutButton>
             </Container>

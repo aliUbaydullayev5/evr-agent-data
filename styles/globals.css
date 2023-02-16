@@ -14,6 +14,7 @@
 }
 body{
   font-family: var(--classicFont);
+  position: relative;
 }
 .nocopy {
   -webkit-touch-callout: none;

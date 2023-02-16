@@ -1,5 +1,5 @@
 import React from 'react'
-import Container from "@/Root/style";
+import Container from "@/root/style";
 
 const Root = ({children}) => {
     return(
