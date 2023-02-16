@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Container from './style'
-import lineImg from '../../assets/img/lineImg.svg'
-import Image from "next/image";
+import LineImg from '../../assets/svg/Vectors.svg'
+// import Image from "next/image";
 
 const Login = () => {
 
@@ -47,7 +47,7 @@ const Login = () => {
                 <div className={'submitButtonDiv'}>
                     <input type="submit" value="Submit" className={'submitButton'} onClick={()=> pushFunc()} />
                 </div>
-                <Image src={lineImg} alt={'lineImgDoNotImportant'} className={'lineImg'} />
+                <LineImg className={'lineImg'}/>
             </Container.Inset>
         </Container>
     )
