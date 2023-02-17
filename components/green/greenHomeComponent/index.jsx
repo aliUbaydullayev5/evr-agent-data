@@ -1,6 +1,6 @@
 import Container from './style'
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getAllDataFetch} from "@/redux/slice/getAllData";
 
 
@@ -10,24 +10,29 @@ const GreenHomeComponent = () => {
     const getAllData = useSelector((store)=> store.getAllData)
 
 
+    const [data, setData] = useState([])
 
     useEffect(()=> {
         dispatch(getAllDataFetch())
     }, [])
 
-    // return await fetch(`https://evrtourback.uz/api/v1/user/get`, {
-    //     method: 'GET',
-    //     headers: {
-    //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    //         'Content-Type': 'application/json',
-    //         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIrOTk4OTkzODkwOTI3IiwiaWF0IjoxNjc2NTU5ODA0LCJleHAiOjE2NzcxNjQ2MDR9.Hbdv81cFgoepVE3Lw9VKcHxLZpAdVzsYZfAwgkKi-X15zBXcwPgrLBwd1A07j0FZ7ZSnc4grNF8D1Epm6vYmIw`
-    //     }
-    // }).then((res)=> res.json())
+    useEffect(()=> {
+        if(getAllData.status === 'success'){
+            setData(getAllData.data)
+        }
+    }, [getAllData])
 
+    console.log(getAllData)
 
     return(
         <Container>
-
+            {
+                data?.map((value)=> (
+                    <Container.Setion key={value.id}>
+                        {value.firstName}
+                    </Container.Setion>
+                ))
+            }
         </Container>
     )
 }

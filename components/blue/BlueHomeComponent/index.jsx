@@ -29,7 +29,6 @@ const BlueHomeComponent = () => {
     })
 
 
-
     const changeAllDataFunc = ({ type, value }) => {
         const fakeData = data;
         fakeData[type] = value;

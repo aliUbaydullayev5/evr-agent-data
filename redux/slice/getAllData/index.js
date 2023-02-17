@@ -1,9 +1,8 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const getAllDataFetch = createAsyncThunk('getAllDataFetch', async ()=> {
-
     // return await fetch(`https://evrtourback.uz/api/v1/user/get`, {
-    return await fetch(`https://192.168.0.132:8086/api/v1/user/get`, {
+    return await fetch(`http://192.168.0.132:8086/api/v1/user/get`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -18,6 +17,7 @@ const getAllData = createSlice({
     initialState: {
         status: null,
         message: '',
+        data: []
     },
     extraReducers: {
         [getAllDataFetch.pending]: (state)=> {
@@ -26,6 +26,7 @@ const getAllData = createSlice({
         [getAllDataFetch.fulfilled]: (state, {payload})=> {
             if(payload.success === true) {
                 state.status = 'success'
+                state.data = payload.data
             }
             else if(payload?.success === false){
                 state.status = 'warning'
