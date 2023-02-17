@@ -15,10 +15,10 @@ const HomeComponent = () => {
     return(
         <Root>
             <Container className={'nocopy'}>
-                <Block back={'rgba(0, 39, 105, 0.65)'}>
+                <Block back={'rgba(0, 39, 105, 0.65)'} onClick={()=> router.push('/home/blue')}>
                     ADD DATA
                 </Block>
-                <Block back={'rgba(20,152,0,0.65)'}>
+                <Block back={'rgba(20,152,0,0.65)'} onClick={()=> router.push('/home/green')} >
                     VIEW DATA
                 </Block>
 

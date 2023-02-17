@@ -15,6 +15,9 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
   }
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `
 
 const Block = styled.div`

@@ -37,6 +37,11 @@ const Login = () => {
         }
     }, [login])
 
+    useEffect(()=> {
+        if (localStorage.getItem('accessToken')) router.push('/home')
+    }, [])
+
+
     const pushFunc = () => {
         if(checkedState){
             localStorage.setItem('remember', 'yes')
@@ -49,6 +54,10 @@ const Login = () => {
         }
         dispatch(loginFetch({userName: loginText, password: passwordText}))
     }
+
+
+
+
     return(
         <Container>
             <Container.Inset>
