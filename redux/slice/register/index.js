@@ -2,10 +2,11 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const registerFetch = createAsyncThunk('registerFetch', async (payload)=> {
     // return await fetch(`https://evrtourback.uz/api/v1/user/create`, {
-        return await fetch(`https://192.168.0.132:8086/api/v1/user/create`, {
+        return await fetch(`http://192.168.0.132:8086/api/v1/user/create`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
         },
         body:JSON.stringify({
             id: null,
@@ -18,7 +19,6 @@ export const registerFetch = createAsyncThunk('registerFetch', async (payload)=>
             attachmentId: payload.attachmentId,
             attachmentPassportId: payload.attachmentPassportId,
             attachmentDiplomaId: payload.attachmentDiplomaId,
-            attachmentUser: null,
             attachment: null,
             payments: null
         })
@@ -42,6 +42,7 @@ const register = createSlice({
             }
             else if(payload?.success === false){
                 state.status = 'warning'
+                state.message = payload?.errors[0]?.errorMsg.split('_').join(' ')
             }
         },
         [registerFetch.rejected]: (state)=> {

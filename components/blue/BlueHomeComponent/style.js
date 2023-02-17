@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 
-const Container = styled.div`
+const Container = styled.form`
   padding: 40px 0 30px 0;
   max-width: 600px;
   display: flex;
@@ -9,7 +9,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 30px auto;
+  margin: 60px auto;
   > input {
     padding: 5px 10px;
     font-size: 22px;
@@ -33,8 +33,8 @@ const Container = styled.div`
 `
 
 const ExitButton = styled.div`
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 20px;
   right: 40px;
   background-color: #6e0101;
   display: flex;

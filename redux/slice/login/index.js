@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const loginFetch = createAsyncThunk('loginFetch', async ({userName, password})=> {
     // return await fetch(`https://evrtourback.uz/api/v1/auth/login`, {
-    return await fetch(`https://192.168.0.132:8086/api/v1/auth/login`, {
+    return await fetch(`http://192.168.0.132:8086/api/v1/auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -26,7 +26,6 @@ const login = createSlice({
             if(payload.success === true) {
                 state.status = 'success'
                 localStorage.setItem('accessToken', payload.data.accessToken)
-                console.log(payload, 'payload')
             }
             else if(payload?.success === false){
                 state.status = 'warning'
