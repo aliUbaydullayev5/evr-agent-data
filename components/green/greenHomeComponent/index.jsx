@@ -29,7 +29,23 @@ const GreenHomeComponent = () => {
             {
                 data?.map((value)=> (
                     <Container.Setion key={value.id}>
-                        {value.firstName}
+                        
+                        <div>
+                            {value.firstName}
+                        </div>
+                        <div>
+                            {value.firstName}
+                        </div>
+                        <div>
+                            {value.firstName}
+                        </div>
+                        <div>
+                            {value.firstName}
+                        </div>   <div>
+                            {value.firstName}
+                        </div>
+                   
+
                     </Container.Setion>
                 ))
             }

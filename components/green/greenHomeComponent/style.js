@@ -10,12 +10,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 600px !important;
+  overflow-y: scroll;
+
+
+
 `
 
 Container.Setion = styled.div`
   border: 1px solid red;
   padding: 3px 10px;
   font-size: 22px;
+  display: flex;
 `
 
 export default Container
