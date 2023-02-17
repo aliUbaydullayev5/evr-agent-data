@@ -1,26 +1,30 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const registerFetch = createAsyncThunk('registerFetch', async (payload)=> {
-    return await fetch(`https://evrtourback.uz/api/v1/user/create`, {
+    // return await fetch(`https://evrtourback.uz/api/v1/user/create`, {
+        return await fetch(`https://192.168.0.132:8086/api/v1/user/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body:JSON.stringify({
-            // payload.id: "",
-            // payload.firstName: "Ulug",
-            // payload.lastName: null,
-            // payload.patron: null,
-            // payload.phoneNumber: "+998993890928",
-            // payload.extraPhoneNumber: null,
-            // payload.passportSeries: null,
-            // payload.attachmentId: null,
-            // payload.attachmentUser: null,
-            // payload.attachment: null,
-            // payload.payments: []
+            id: null,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            patron: payload.patron,
+            phoneNumber: payload.phoneNumber,
+            extraPhoneNumber: payload.extraPhoneNumber,
+            passportSeries: payload.passportSeries,
+            attachmentId: payload.attachmentId,
+            attachmentPassportId: payload.attachmentPassportId,
+            attachmentDiplomaId: payload.attachmentDiplomaId,
+            attachmentUser: null,
+            attachment: null,
+            payments: null
         })
     }).then((res)=> res.json())
 })
+
 
 const register = createSlice({
     name: 'register',

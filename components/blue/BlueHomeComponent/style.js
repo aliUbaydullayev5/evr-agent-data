@@ -24,10 +24,10 @@ const Container = styled.div`
     border-radius: 10px;
     transition: .2s;
     :hover{
-      transform: scale(1.03);
+      transform: scale(1.01);
     }
     :active{
-      transform: scale(1.5);
+      transform: scale(1.2);
     }
   }
 `
