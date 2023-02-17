@@ -24,6 +24,10 @@ Container.Section = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 10px;
+  .img{
+    width: 50px;
+    height: 50px;
+  }
   table{
     width: 100%;
     padding: 10px 0;
@@ -47,6 +51,7 @@ const ExitButton = styled.div`
   cursor: pointer;
   color: #fff;
   transition: .2s;
+  z-index: 999;
   :hover{
     transform: scale(1.05);
   }
@@ -54,4 +59,6 @@ const ExitButton = styled.div`
     transform: scale(1.08);
   }
 `
+
+export {ExitButton}
 export default Container

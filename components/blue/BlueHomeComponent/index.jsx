@@ -92,8 +92,13 @@ const BlueHomeComponent = () => {
 
                 <input type="text" placeholder={'passport series'} maxLength={9} onChange={(e)=> changeAllDataFunc({type: 'passportSeries', value: e.target.value})} value={data.passportSeries} />
 
+                <p>avatar majbur emas</p>
                 <input type="file" placeholder={'attachment id'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentId' })} />
+
+                <p>passport nuhsasi</p>
                 <input type="file" placeholder={'attachment'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentPassportId' })} />
+
+                <p>diplom nuhsasi</p>
                 <input type="file" placeholder={'attachmentDiplomaId'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentDiplomaId' })} />
                 <button onClick={()=> dispatch(registerFetch(data)) }>Malumot Qoshish</button>
             </Container>
