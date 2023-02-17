@@ -1,8 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const getAllDataFetch = createAsyncThunk('getAllDataFetch', async ()=> {
-    // return await fetch(`https://evrtourback.uz/api/v1/user/get`, {
-    return await fetch(`http://192.168.0.132:8086/api/v1/user/get`, {
+    return await fetch(`https://evrtourback.uz/api/v1/user/get`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

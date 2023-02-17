@@ -3,7 +3,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 export const deployFileFetch = createAsyncThunk('deployFetchData', async (payload)=> {
     let formData = new FormData()
     formData.append('file', payload.file.target.files[0])
-    return await fetch(`http://192.168.0.132:8086/api/v1/attachment/upload`, {
+    return await fetch(`https://evrtourback.uz/api/v1/attachment/upload`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
@@ -34,6 +34,10 @@ const deployFile = createSlice({
                 state.status = 'success'
                 state.fileId = data
                 state.by = by
+            }
+            else if(payload?.success === false){
+                state.status = 'warning'
+                state.message = payload?.errors[0]?.errorMsg.split('_').join(' ')
             }
         },
         [deployFileFetch.rejected]: (state)=> {

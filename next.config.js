@@ -14,7 +14,10 @@ const nextConfig = {
   },
   compiler: {
     styledComponents: true
-  }
+  },
+  images: {
+    domains: ['evrtourback.uz'],
+  },
 }
 
 module.exports = nextConfig

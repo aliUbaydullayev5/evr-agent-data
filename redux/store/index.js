@@ -4,6 +4,7 @@ import messageSlice from '../slice/message'
 import getAllData from '../slice/getAllData'
 import deployFile from '../slice/deployFile'
 import register from '../slice/register'
+import getImg from '../slice/getImg'
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         messageSlice,
         getAllData,
         deployFile,
-        register
+        register,
+        getImg
     },
 })

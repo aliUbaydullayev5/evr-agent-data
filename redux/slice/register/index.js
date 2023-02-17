@@ -1,8 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const registerFetch = createAsyncThunk('registerFetch', async (payload)=> {
-    // return await fetch(`https://evrtourback.uz/api/v1/user/create`, {
-        return await fetch(`http://192.168.0.132:8086/api/v1/user/create`, {
+    return await fetch(`https://evrtourback.uz/api/v1/user/create`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -37,6 +36,7 @@ const register = createSlice({
             state.status = 'loading'
         },
         [registerFetch.fulfilled]: (state, {payload})=> {
+            console.log(payload)
             if(payload.success === true) {
                 state.status = 'success'
             }

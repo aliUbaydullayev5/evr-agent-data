@@ -35,10 +35,13 @@ const BlueHomeComponent = () => {
         setData(fakeData);
         setData({ ...data, [type]: value });
     };
+
     useEffect(() => changeAllDataFunc({ type: by, value: fileId }), [fileId]);
     useEffect(()=> {
         if(deployFile.status === 'success') dispatch(startMessage({type: 'success', message: 'File yuklandi', time: 1}))
+        else if(deployFile.status === 'warning') dispatch(startMessage({type: 'error', message: deployFile?.message || 'message not fount', time: 3}))
     }, [deployFile])
+
     const findFileFunc = ({ file, by }) => dispatch(deployFileFetch({ file: file, by }));
 
 
@@ -58,7 +61,6 @@ const BlueHomeComponent = () => {
             window.location.reload(true)
         }
         if(register.status === 'error' || register.status === 'warning'){
-
         }
     }, [register])
 

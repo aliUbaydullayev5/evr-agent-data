@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 
-const Container = styled.form`
+const Container = styled.div`
   padding: 40px 0 30px 0;
   max-width: 600px;
   display: flex;

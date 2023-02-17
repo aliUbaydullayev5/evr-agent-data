@@ -20,7 +20,7 @@ const Container = styled.div`
   width: 400px;
   min-height: 100px;
   border-radius: 13px;
-  background: rgb(20,152,0);
+  background: rgb(150, 150, 150);
   transition: .3s;
   z-index: 9999999999999;
   ${({hiddenState}) => hiddenFunc(hiddenState)}
@@ -33,7 +33,7 @@ const Container = styled.div`
     max-width: 400px;
     padding: 5px 10px;
   }
-  
+
 `
 Container.Left = styled.div`
   display: flex;
