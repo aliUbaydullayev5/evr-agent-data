@@ -64,6 +64,7 @@ const BlueHomeComponent = () => {
         }
     }, [register])
 
+    console.log(data)
 
     return(
         <>
@@ -93,14 +94,28 @@ const BlueHomeComponent = () => {
 
                 <input type="text" placeholder={'passport series'} maxLength={9} onChange={(e)=> changeAllDataFunc({type: 'passportSeries', value: e.target.value})} value={data.passportSeries} />
 
-                <label htmlFor="avatar">avatar majbur ema</label>
-                <input type="file" id={'avatar'} placeholder={'attachment id'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentId' })} />
+                {/*<label htmlFor="avatar">avatar majbur ema</label>*/}
 
-                <label htmlFor="passport">passport nuhsasi</label>
-                <input type="file" id={'passport'} placeholder={'attachment'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentPassportId' })} />
+                {/*<label htmlFor="passport">passport nuhsasi</label>*/}
+                {/*<input type="file" id={'passport'} placeholder={'attachment'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentPassportId' })} />*/}
 
-                <label htmlFor="diplom">diplom nuhsasi</label>
-                <input type="file" id={'diplom'} placeholder={'attachmentDiplomaId'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentDiplomaId' })} />
+                {/*<label htmlFor="diplom">diplom nuhsasi</label>*/}
+                {/*<input type="file" id={'diplom'} placeholder={'attachmentDiplomaId'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentDiplomaId' })} />*/}
+
+                <label className="custom-file-upload">
+                    <input type="file" id={'avatar'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentPassportId' })} />
+                    Pasport <strong>FILE {data.attachmentPassportId.length ? 'YUKLANDI' : deployFile.status === 'loading' && 'LOADING ...'   } </strong>
+                </label>
+
+                <label className="custom-file-upload">
+                    <input type="file" id={'avatar'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentDiplomaId' })} />
+                    Diplom <strong>FILE {data.attachmentDiplomaId.length ? 'YUKLANDI' : deployFile.status === 'loading' && 'LOADING ...'   } </strong>
+                </label>
+
+                <label className="custom-file-upload">
+                    <input type="file" id={'avatar'} placeholder={'attachment id'} onChange={(e) => findFileFunc({ file: e, by: 'attachmentId' })} />
+                    Avatar Rasim <strong>FILE {data.attachmentId.length ? 'YUKLANDI' : deployFile.status === 'loading' && 'LOADING ...'   } </strong>
+                </label>
 
                 <button onClick={()=> dispatch(registerFetch(data)) }>Malumot Qoshish</button>
 

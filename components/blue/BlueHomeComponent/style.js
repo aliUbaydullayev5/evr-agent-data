@@ -10,11 +10,34 @@ const Container = styled.div`
   justify-content: center;
   gap: 10px;
   margin: 60px auto;
+
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 15px;
+    width: 368px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
   > input {
-    padding: 5px 10px;
-    font-size: 22px;
-    border-radius: 10px;
-    border: 2px solid #d2d2d2;
+    width: 368px;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+    padding: 12px;
+
+    color: #333333;
+    
   }
   >button{
     padding: 5px 10px;
