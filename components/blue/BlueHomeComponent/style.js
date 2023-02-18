@@ -40,12 +40,25 @@ const Container = styled.div`
     
   }
   >button{
-    padding: 5px 10px;
-    font-size: 22px;
-    cursor: pointer;
-    border: 2px solid #d2d2d2;
-    border-radius: 10px;
+    //padding: 5px 10px;
+    //font-size: 22px;
+    //cursor: pointer;
+    //border: 2px solid #d2d2d2;
+    //border-radius: 10px;
     transition: .2s;
+    cursor: pointer;
+    width: 368px;
+    height: 56px;
+    border: 0;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+
+    background: #7A5CFA;
+    border-radius: 8px;
+    
     :hover{
       transform: scale(1.01);
     }
