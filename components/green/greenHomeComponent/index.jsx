@@ -1,18 +1,21 @@
-import Container, {ExitButton} from './style'
-import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
-import {getAllDataFetch} from "@/redux/slice/getAllData";
-import {useRouter} from "next/router";
-import ModalImage from "react-modal-image";
-import {registerFetch} from "@/redux/slice/register";
+import Container, {ExitButton, Modal} from './style'
+import {useDispatch, useSelector} from "react-redux"
+import React, {useEffect, useState} from "react"
+import {getAllDataFetch} from "@/redux/slice/getAllData"
+import {useRouter} from "next/router"
+import ModalImage from "react-modal-image"
+import {registerFetch} from "@/redux/slice/register"
+import CloseImg from '../../../assets/svg/close.svg'
 const GreenHomeComponent = () => {
 
     const router = useRouter()
     const dispatch = useDispatch()
+
     const getAllData = useSelector((store)=> store.getAllData)
     const register = useSelector((store)=> store.register)
 
     const [data, setData] = useState([])
+    const [modalHidden, setModalHidden] = useState(false)
 
     useEffect(()=> {dispatch(getAllDataFetch())}, [])
 
@@ -39,7 +42,7 @@ const GreenHomeComponent = () => {
     }, [getAllData])
 
 
-    const [singleValue, setSingleValue] = useState()
+
     const changeInput = (id) => {
         setData(getAllData.data.map((value)=> ({
             attachment: value.attachment,
@@ -80,6 +83,33 @@ const GreenHomeComponent = () => {
     return(
         <>
             <ExitButton onClick={()=> router.push('/home')}>Exit</ExitButton>
+            {
+                modalHidden
+                &&
+                <Modal>
+                    <div className="insetDiv">
+                        <CloseImg className={'closeImg'} onClick={()=> setModalHidden(!modalHidden) } />
+
+                        <div>
+                            <input type="number" placeholder={'tolov summasi'} id={'sum'} />
+                            <label htmlFor="sum">SUM</label>
+                        </div>
+
+                        {/*<input type="text" placeholder={'batavsil'} />*/}
+                        <textarea cols="34" rows="5" placeholder={'batavsil'}>
+
+                        </textarea>
+
+                        <input type="text" placeholder={'tolov turi'} />
+
+                        <div>
+                            <input type="file" id={'file'}/>
+                            <label htmlFor="file">Tolov Checki</label>
+                        </div>
+                        <button>Saqlash</button>
+                    </div>
+                </Modal>
+            }
 
             <Container>
                 {
@@ -224,7 +254,7 @@ const GreenHomeComponent = () => {
                                             }
                                         </td>
                                         <td>
-                                            <button>Payments</button>
+                                            <button onClick={()=> setModalHidden(!modalHidden) }>Payments</button>
                                         </td>
                                     </tr>
 

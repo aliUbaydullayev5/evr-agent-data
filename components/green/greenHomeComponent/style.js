@@ -60,5 +60,52 @@ const ExitButton = styled.div`
   }
 `
 
-export {ExitButton}
+const Modal = styled.div`
+  width: 100%;
+  position: fixed;
+  top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .insetDiv {
+    min-width: 300px;
+    max-width: 700px;
+    width: 100%;
+    min-height: 300px;
+    border-radius: 15px;
+    background-color: rgba(40, 40, 40, 0.96);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    .closeImg {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    input {
+      background-color: #c0c0c0;
+      border-radius: 5px;
+      padding: 4px 8px;
+      border: 0;
+      font-size: 20px;
+      margin: 0 3px;
+    }
+
+    > div {
+      background-color: #d0d0d0;
+      padding: 3px 5px;
+      border-radius: 5px;
+    }
+
+  }
+`
+
+export {ExitButton, Modal}
 export default Container
