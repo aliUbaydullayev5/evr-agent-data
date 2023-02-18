@@ -3,13 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {getAllDataFetch} from "@/redux/slice/getAllData";
 import {useRouter} from "next/router";
-import { Button, Image as CustomImage, InputNumber } from 'antd';
 import ModalImage from "react-modal-image";
+import {registerFetch} from "@/redux/slice/register";
 const GreenHomeComponent = () => {
 
     const router = useRouter()
     const dispatch = useDispatch()
     const getAllData = useSelector((store)=> store.getAllData)
+    const register = useSelector((store)=> store.register)
 
     const [data, setData] = useState([])
 
@@ -66,6 +67,15 @@ const GreenHomeComponent = () => {
         })))
     }
 
+    useEffect(()=> {
+        if(register.status === 'success') dispatch(getAllDataFetch())
+    }, [register])
+
+
+    const saveDataFunc = (id) => {
+        let oneData = data.filter((value)=> value.id === id)
+        dispatch(registerFetch(oneData[0]))
+    }
 
     return(
         <>
@@ -76,144 +86,149 @@ const GreenHomeComponent = () => {
                     data?.map((value)=> (
                         <Container.Section key={value.id}>
                             <table>
-
                                 <tbody>
-                                <tr>
-                                    <td>Attachment: </td>
-                                    <td>
-                                        {
-                                            value?.attachment?.id
-                                                ?
-                                                <ModalImage
-                                                    className={'img'}
-                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachment?.id}`}
-                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachment?.id}`}
-                                                />
-                                                :
-                                                <div>
-                                                    <p>Img Not Fount</p>
-                                                </div>
-                                        }
+                                    <tr>
+                                        <td>Attachment: </td>
+                                        <td>
+                                            {
+                                                value?.attachment?.id
+                                                    ?
+                                                    <ModalImage
+                                                        className={'img'}
+                                                        small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachment?.id}`}
+                                                        large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachment?.id}`}
+                                                    />
+                                                    :
+                                                    <div>
+                                                        <p>Img Not Fount</p>
+                                                    </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Attachment Diploma: </td>
+                                        <td>
+                                            {
+                                                value?.attachmentDiploma?.id ?
+                                                    <ModalImage
+                                                        className={'img'}
+                                                        small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentDiploma?.id}`}
+                                                        large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentDiploma?.id}`}
+                                                    />
+                                                    :
+                                                    <div>
+                                                        <p>Img Not Fount</p>
+                                                    </div>
+                                            }
+                                        </td>
+                                    </tr>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Attachment Diploma: </td>
-                                    <td>
-                                        {
-                                            value?.attachmentDiploma?.id ?
-                                                <ModalImage
-                                                    className={'img'}
-                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentDiploma?.id}`}
-                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentDiploma?.id}`}
-                                                />
-                                                :
-                                                <div>
-                                                    <p>Img Not Fount</p>
-                                                </div>
-                                        }
+                                    <tr>
+                                        <td>Attachment Passport: </td>
+                                        <td>
+                                            {
+                                                value?.attachmentPassport?.id
+                                                    ?
+                                                    <ModalImage
+                                                        className={'img'}
+                                                        small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentPassport?.id}`}
+                                                        large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentPassport?.id}`}
+                                                    />
+                                                    :
+                                                    <div>
+                                                        <p>Img Not Fount</p>
+                                                    </div>
+                                            }
+                                        </td>
+                                    </tr>
 
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>First Name: </td>
+                                        <>
+                                            {
+                                                value.hidden ?
+                                                    <input type="text" value={value.firstName} onChange={(e)=> changeUniqValue({type: 'firstName', value: e.target.value, id: value.id}) } />
+                                                    :
+                                                    <td>{value.firstName}</td>
+                                            }
+                                        </>
+                                    </tr>
 
-                                <tr>
-                                    <td>Attachment Passport: </td>
-                                    <td>
-                                        {
-                                            value?.attachmentPassport?.id
-                                                ?
-                                                <ModalImage
-                                                    className={'img'}
-                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentPassport?.id}`}
-                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentPassport?.id}`}
-                                                />
-                                                :
-                                                <div>
-                                                    <p>Img Not Fount</p>
-                                                </div>
+                                    <tr>
+                                        <td>Last Name: </td>
+                                        <>
+                                            {
+                                                value.hidden ?
+                                                    <input type="text" value={value.lastName} onChange={(e)=> changeUniqValue({type: 'lastName', value: e.target.value, id: value.id}) } />
+                                                    :
+                                                    <td>{value.lastName}</td>
+                                            }
+                                        </>
+                                    </tr>
 
-                                        }
+                                    <tr>
+                                        <td>Patron: </td>
+                                        <>
+                                            {
+                                                value.hidden ?
+                                                    <input type="text" value={value.patron} onChange={(e)=> changeUniqValue({type: 'patron', value: e.target.value, id: value.id}) } />
+                                                    :
+                                                    <td>{value.patron}</td>
+                                            }
+                                        </>
+                                    </tr>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>First Name: </td>
-                                    <>
-                                        {
-                                            value.hidden ?
-                                                <input type="text" value={value.firstName} onChange={(e)=> changeUniqValue({type: 'firstName', value: e.target.value, id: value.id}) } />
-                                                :
-                                                <td>{value.firstName}</td>
-                                        }
-                                    </>
-                                </tr>
-                                <tr>
-                                    <td>Last Name: </td>
-                                    <>
-                                        {
-                                            value.hidden ?
-                                                <input type="text" value={value.lastName} onChange={(e)=> changeUniqValue({type: 'lastName', value: e.target.value, id: value.id}) } />
-                                                :
-                                                <td>{value.lastName}</td>
-                                        }
-                                    </>
-                                </tr>
-                                <tr>
-                                    <td>Patron: </td>
-                                    <>
-                                        {
-                                            value.hidden ?
-                                                <input type="text" value={value.patron} onChange={(e)=> changeUniqValue({type: 'patron', value: e.target.value, id: value.id}) } />
-                                                :
-                                                <td>{value.patron}</td>
-                                        }
-                                    </>
-                                </tr>
-                                <tr>
-                                    <td>Passport: </td>
-                                    <>
-                                        {
-                                            value.hidden ?
-                                                <input type="text" value={value.passportSeries} onChange={(e)=> changeUniqValue({type: 'passportSeries', value: e.target.value, id: value.id}) } />
-                                                :
-                                                <td>{value.passportSeries}</td>
-                                        }
-                                    </>
-                                </tr>
-                                <tr>
-                                    <>
-                                        <td>Phone Number: </td>
-                                        {
-                                            value.hidden ?
-                                                <input type="text" value={value.phoneNumber} onChange={(e)=> changeUniqValue({type: 'phoneNumber', value: e.target.value, id: value.id}) } />
-                                                :
-                                                <td>{value.phoneNumber}</td>
-                                        }
+                                    <tr>
+                                        <td>Passport: </td>
+                                        <>
+                                            {
+                                                value.hidden ?
+                                                    <input type="text" value={value.passportSeries} onChange={(e)=> changeUniqValue({type: 'passportSeries', value: e.target.value, id: value.id}) } />
+                                                    :
+                                                    <td>{value.passportSeries}</td>
+                                            }
+                                        </>
+                                    </tr>
 
-                                    </>
-                                </tr>
-                                <tr>
+                                    <tr>
+                                        <>
+                                            <td>Phone Number: </td>
+                                            {
+                                                value.hidden ?
+                                                    <input type="text" value={value.phoneNumber} onChange={(e)=> changeUniqValue({type: 'phoneNumber', value: e.target.value, id: value.id}) } />
+                                                    :
+                                                    <td>{value.phoneNumber}</td>
+                                            }
+                                        </>
+                                    </tr>
 
-                                    <>
-                                        <td>Phone Number: </td>
-                                        {
-                                            value.hidden ?
-                                                <input type="text" value={value.extraPhoneNumber} onChange={(e)=> changeUniqValue({type: 'extraPhoneNumber', value: e.target.value, id: value.id}) } />
-                                                :
-                                                <td>{value.extraPhoneNumber}</td>
-                                        }
+                                    <tr>
+                                        <>
+                                            <td>Phone Number: </td>
+                                            {
+                                                value.hidden ?
+                                                    <input type="text" value={value.extraPhoneNumber} onChange={(e)=> changeUniqValue({type: 'extraPhoneNumber', value: e.target.value, id: value.id}) } />
+                                                    :
+                                                    <td>{value.extraPhoneNumber}</td>
+                                            }
+                                        </>
+                                    </tr>
 
-                                    </>
+                                    <tr>
+                                        <td>
+                                            {
+                                                value.hidden ?
+                                                    <button onClick={()=> saveDataFunc(value.id)} >OK</button>
+                                                    :
+                                                    <button onClick={()=>  changeInput(value.id) }>Edit</button>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button>Payments</button>
+                                        </td>
+                                    </tr>
 
-                                </tr>
                                 </tbody>
-
-                                {
-                                    value.hidden ?
-                                        <button>OK</button>
-                                        :
-                                        <button onClick={()=> changeInput(value.id) }>Edit</button>
-                                }
                             </table>
                         </Container.Section>
                     ))

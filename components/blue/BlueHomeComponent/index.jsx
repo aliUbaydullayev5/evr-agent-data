@@ -69,6 +69,7 @@ const BlueHomeComponent = () => {
         <>
             <ExitButton onClick={()=> router.push('/home')}>Exit</ExitButton>
             <Container>
+
                 <input type="text" placeholder={'first name'} onChange={(e)=> changeAllDataFunc({type: 'firstName', value: e.target.value})} value={data.firstName} />
                 <input type="text" placeholder={'last name'} onChange={(e)=> changeAllDataFunc({type: 'lastName', value: e.target.value})} value={data.lastName} />
                 <input type="text" placeholder={'patron'} onChange={(e)=> changeAllDataFunc({type: 'patron', value: e.target.value})} value={data.patron} />

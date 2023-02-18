@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const registerFetch = createAsyncThunk('registerFetch', async (payload)=> {
+
+
     return await fetch(`https://evrtourback.uz/api/v1/user/create`, {
         method: 'POST',
         headers: {
@@ -8,7 +10,7 @@ export const registerFetch = createAsyncThunk('registerFetch', async (payload)=>
             'Content-Type': 'application/json',
         },
         body:JSON.stringify({
-            id: null,
+            id: payload.id ? payload.id : null,
             firstName: payload.firstName,
             lastName: payload.lastName,
             patron: payload.patron,
@@ -18,8 +20,6 @@ export const registerFetch = createAsyncThunk('registerFetch', async (payload)=>
             attachmentId: payload.attachmentId,
             attachmentPassportId: payload.attachmentPassportId,
             attachmentDiplomaId: payload.attachmentDiplomaId,
-            attachment: null,
-            payments: null
         })
     }).then((res)=> res.json())
 })
