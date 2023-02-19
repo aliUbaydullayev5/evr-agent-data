@@ -1,13 +1,13 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const loginFetch = createAsyncThunk('loginFetch', async ({userName, password})=> {
-    console.log(userName.slice(1), password)
+
     return await fetch(`https://evrtourback.uz/api/v1/auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body:JSON.stringify({userName: userName.slice(1), password}),
+        body:JSON.stringify({userName: userName.match(/[0-9]+/g).join(''), password}),
     }).then((res)=> res.json())
 })
 

@@ -24,7 +24,6 @@ const paySlice = createSlice({
             state.status = 'loading'
         },
         [paySliceFetch.fulfilled]: (state, {payload})=> {
-            console.log(payload)
             if(payload.success === true) {
                 state.status = 'success'
             }

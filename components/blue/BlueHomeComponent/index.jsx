@@ -61,10 +61,9 @@ const BlueHomeComponent = () => {
             window.location.reload(true)
         }
         if(register.status === 'error' || register.status === 'warning'){
+            
         }
     }, [register])
-
-    console.log(data)
 
     return(
         <>

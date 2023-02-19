@@ -40,11 +40,6 @@ const Container = styled.div`
     
   }
   >button{
-    //padding: 5px 10px;
-    //font-size: 22px;
-    //cursor: pointer;
-    //border: 2px solid #d2d2d2;
-    //border-radius: 10px;
     transition: .2s;
     cursor: pointer;
     width: 368px;
