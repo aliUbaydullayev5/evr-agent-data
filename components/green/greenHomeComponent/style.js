@@ -16,23 +16,18 @@ const Container = styled.div`
 
 Container.Section = styled.div`
   width: 300px;
-  //height: 431px;
-
   background: rgba(0, 102, 255, 0.1);
   border: 3px solid rgba(0, 102, 255, 0.1);
   box-shadow: 0 1px 10px 1px rgba(13, 11, 107, 0.2);
   border-radius: 10px;
   padding: 10px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-
   .mainImgDiv {
     position: relative;
   }
-
   .imgDivText {
     position: absolute;
     top: 5px;
@@ -86,24 +81,36 @@ const ExitButton = styled.div`
 
 const Modal = styled.div`
   width: 100%;
+  height: 700px;
+  border: 1px solid red;
+  overflow-x: scroll;
   position: fixed;
   top: 100px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-
+  z-index: 99999;
+  
+  .modalSection{
+    width: 400px;
+    .title{
+      font-weight: bold;
+    }
+  }
   .insetDiv {
     min-width: 300px;
+    background-color: rgb(40, 40, 40);
     max-width: 700px;
     width: 100%;
     min-height: 300px;
     border-radius: 15px;
-    background-color: rgba(40, 40, 40, 0.96);
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 20px;
     gap: 20px;
 
     .closeImg {
@@ -190,12 +197,28 @@ Container.TextSection = styled.div`
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
-
     color: #FFFFFF;
     border: 0;
   }
 `
 
+Container.SearchSection = styled.div`
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  >input{
+    height: 50px;
+    width: 300px;
+    font-size: 22px;
+    border-radius: 10px;
+    border: 2px solid gray;
+    padding: 0 10px;
+  }
+  @media only screen and (max-width: 800px) {
+    justify-content: start;
+  }
+`
 
 export {ExitButton, Modal}
 export default Container

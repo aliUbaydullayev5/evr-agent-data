@@ -1,37 +1,37 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-export const paySliceFetch = createAsyncThunk('loginFetch', async ({userId})=> {
-    return await fetch(`https://evrtourback.uz/api/v1/payment/get-payment-history`, {
-        method: 'POST',
+export const payGetFetch = createAsyncThunk('payGetFetch', async ({id})=> {
+    return await fetch(`https://evrtourback.uz/api/v1/payment/get-payment-history/by-user?userId=${id}`, {
+        method: 'GET',
         headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             'Content-Type': 'application/json'
-        },
-        body:JSON.stringify({
-            userId
-        }),
+        }
     }).then((res)=> res.json())
 })
 
 
-const paySlice = createSlice({
-    name: 'login',
+const payGet = createSlice({
+    name: 'payPostSlice',
     initialState: {
         status: null,
         message: '',
+        data: []
     },
     extraReducers: {
-        [paySliceFetch.pending]: (state)=> {
+        [payGetFetch.pending]: (state)=> {
             state.status = 'loading'
         },
-        [paySliceFetch.fulfilled]: (state, {payload})=> {
+        [payGetFetch.fulfilled]: (state, {payload})=> {
             if(payload.success === true) {
                 state.status = 'success'
+                state.data = payload.data
             }
             else if(payload?.success === false){
                 state.status = 'warning'
             }
         },
-        [paySliceFetch.rejected]: (state)=> {
+        [payGetFetch.rejected]: (state)=> {
             state.status = 'error'
         }
     },
@@ -39,4 +39,4 @@ const paySlice = createSlice({
 
 
 
-export default paySlice.reducer
+export default payGet.reducer

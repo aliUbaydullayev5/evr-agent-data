@@ -1,11 +1,17 @@
 import Container, {ExitButton, Modal} from './style'
 import {useDispatch, useSelector} from "react-redux"
 import React, {useEffect, useState} from "react"
-import {getAllDataFetch} from "@/redux/slice/getAllData"
+import {addPageCount, getAllDataFetch} from "@/redux/slice/getAllData"
 import {useRouter} from "next/router"
 import ModalImage from "react-modal-image"
 import {registerFetch} from "@/redux/slice/register"
 import CloseImg from '../../../assets/svg/close.svg'
+import Loading from "@/components/LoadingCom";
+import { InView } from "react-intersection-observer";
+import {payGetFetch} from "../../../redux/slice/payGetSlice";
+import {deployFileFetch} from "@/redux/slice/deployFile";
+import {startMessage} from "@/redux/slice/message";
+
 const GreenHomeComponent = () => {
 
     const router = useRouter()
@@ -13,11 +19,13 @@ const GreenHomeComponent = () => {
 
     const getAllData = useSelector((store)=> store.getAllData)
     const register = useSelector((store)=> store.register)
+    const { fileId, by } = useSelector((store) => store.deployFile)
+    const deployFile = useSelector((store)=> store.deployFile)
+    const payPostSlice = useSelector((store)=> store.payPostSlice)
+    const payGet = useSelector((store)=> store.payGet)
 
     const [data, setData] = useState([])
     const [modalHidden, setModalHidden] = useState(false)
-
-    useEffect(()=> {dispatch(getAllDataFetch())}, [])
 
     useEffect(()=> {
         if(getAllData.status === 'success') setData(getAllData.data.map((value)=> ({
@@ -38,6 +46,37 @@ const GreenHomeComponent = () => {
             hidden: false
         })))
     }, [getAllData])
+
+    useEffect(()=> {
+        setData(getAllData.data.map((value)=> ({
+            attachment: value.attachment,
+            attachmentDiploma: value.attachmentDiploma,
+            attachmentDiplomaId: value.attachmentDiplomaId,
+            attachmentId: value.attachmentId,
+            attachmentPassportId: value.attachmentPassportId,
+            attachmentPassport: value.attachmentPassport,
+            extraPhoneNumber: value.extraPhoneNumber,
+            firstName: value.firstName,
+            id: value.id,
+            lastName: value.lastName,
+            passportSeries: value.passportSeries,
+            patron: value.patron,
+            payments: value.payments,
+            phoneNumber: value.phoneNumber,
+            hidden: false
+        })))
+    }, [getAllData])
+
+    const [inView, setInView] = useState(false);
+
+    useEffect(()=> {
+        if (inView){
+            if(getAllData.data.length == 20 || getAllData.data.length == 0){
+                dispatch(addPageCount())
+                dispatch(getAllDataFetch({page: getAllData?.pageCount, query: ''}))
+            }
+        }
+    }, [inView])
 
     const changeInput = (id) => {
         setData(getAllData.data.map((value)=> ({
@@ -66,18 +105,60 @@ const GreenHomeComponent = () => {
         })))
     }
 
-    useEffect(()=> {
-        if(register.status === 'success') dispatch(getAllDataFetch())
-    }, [register])
+    useEffect(() => changeAllDataFunc({ type: by, value: fileId }), [fileId])
 
+    useEffect(()=> {
+        if(deployFile.status === 'success') dispatch(startMessage({type: 'success', message: 'File yuklandi', time: 1}))
+        else if(deployFile.status === 'warning') dispatch(startMessage({type: 'error', message: deployFile?.message || 'message not fount', time: 3}))
+    }, [deployFile])
+
+    useEffect(()=> {
+        if(register.status === 'success') dispatch(getAllDataFetch({payload: 0, query: ''}))
+    }, [register])
 
     const saveDataFunc = (id) => {
         let oneData = data.filter((value)=> value.id === id)
         dispatch(registerFetch(oneData[0]))
     }
 
+    const [payState, setPayState] = useState({
+        id: "",
+        userId: "",
+        paidAmount: 0,
+        description: "",
+        paymentType: "",
+        priceFileId: ""
+    })
+
+    const changeAllDataFunc = ({ type, value }) => {
+        const fakeData = payState
+        fakeData[type] = value
+        setPayState(fakeData)
+        setPayState({ ...payState, [type]: value })
+    }
+
+    const searchFunc = (eventValue) => {
+        setTimeout(()=> {
+            dispatch(getAllDataFetch({payload: 0, query: eventValue, search: true}))
+        }, 1000)
+    }
+
+    const findFileFunc = ({ file, by }) => dispatch(deployFileFetch({ file: file, by }));
+
+
+    useEffect(()=> {
+        if(payPostSlice.status === 'success') window.location.reload(true)
+    }, [payPostSlice])
+
+    console.log(payGet, 'payGet')
+
+
+
     return(
         <>
+            <Container.SearchSection>
+                <input type={'text'} placeholder={'Search name, phone, passport'} onChange={(e)=> searchFunc(e.target.value)} />
+            </Container.SearchSection>
             <ExitButton onClick={()=> router.push('/home')}>Exit</ExitButton>
             {
                 modalHidden
@@ -85,24 +166,33 @@ const GreenHomeComponent = () => {
                 <Modal>
                     <div className="insetDiv">
                         <CloseImg className={'closeImg'} onClick={()=> setModalHidden(!modalHidden) } />
+                        <input type="number" placeholder={'pull narxi'} onChange={(e)=> changeAllDataFunc({type: 'paidAmount', value: Number(e.target.value) })} />
+                        <input type="text" placeholder={'ta`rif'} onChange={(e)=> changeAllDataFunc({type: 'description', value: e.target.value})} />
+                        <input type="type" placeholder={'tolangan turi'} onChange={(e)=> changeAllDataFunc({type: 'paymentType', value: e.target.value})} />
+                        <input type="file" onChange={(e) => findFileFunc({ file: e, by: 'priceFileId' })} />
+                        <button onClick={()=> dispatch(paySlicePostFetch({data: payState}))}>Saqlash</button>
 
-                        <div>
-                            <input type="number" placeholder={'tolov summasi'} id={'sum'} />
-                            <label htmlFor="sum">SUM</label>
+                        <div className={'modalSection'}>
+                            {
+                                payGet.status === 'success' &&
+                                <div>
+                                    {
+                                        payGet.data.map((value)=> (
+                                            <div key={value.id}>
+                                                <p><span className={'title'}>tolov</span> : {value.paidAmount}</p>
+                                                <p><span className={'title'}>tolov turi</span> : {value.paymentType}</p>
+                                                <p><span className={'title'}>description</span> : {value.description}</p>
+                                                <ModalImage
+                                                    className={'img'}
+                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.updatedById}`}
+                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.updatedById}`}
+                                                />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            }
                         </div>
-
-                        {/*<input type="text" placeholder={'batavsil'} />*/}
-                        <textarea cols="34" rows="5" placeholder={'batavsil'}>
-
-                        </textarea>
-
-                        <input type="text" placeholder={'tolov turi'} />
-
-                        <div>
-                            <input type="file" id={'file'}/>
-                            <label htmlFor="file">Tolov Checki</label>
-                        </div>
-                        <button>Saqlash</button>
                     </div>
                 </Modal>
             }
@@ -188,7 +278,7 @@ const GreenHomeComponent = () => {
                                         value.hidden ?
                                             <input type="text" value={value.patron} onChange={(e)=> changeUniqValue({type: 'patron', value: e.target.value, id: value.id}) } />
                                             :
-                                        <span>{value.patron}</span>
+                                            <span>{value.patron}</span>
                                     }
                                 </p>
 
@@ -198,7 +288,7 @@ const GreenHomeComponent = () => {
                                         value.hidden ?
                                             <input type="text" value={value.passportSeries} onChange={(e)=> changeUniqValue({type: 'passportSeries', value: e.target.value, id: value.id}) } />
                                             :
-                                        <span> {value.passportSeries}</span>
+                                            <span> {value.passportSeries}</span>
                                     }
                                 </p>
 
@@ -208,7 +298,7 @@ const GreenHomeComponent = () => {
                                         value.hidden ?
                                             <input type="text" value={value.phoneNumber} onChange={(e)=> changeUniqValue({type: 'phoneNumber', value: e.target.value, id: value.id}) } />
                                             :
-                                        <span> +{value.phoneNumber}</span>
+                                            <span> +{value.phoneNumber}</span>
                                     }
                                 </p>
 
@@ -218,185 +308,32 @@ const GreenHomeComponent = () => {
                                         value.hidden ?
                                             <input type="text" value={value.extraPhoneNumber} onChange={(e)=> changeUniqValue({type: 'extraPhoneNumber', value: e.target.value, id: value.id}) } />
                                             :
-                                        <span> +{value.extraPhoneNumber}</span>
+                                            <span> +{value.extraPhoneNumber}</span>
                                     }
                                 </p>
 
                                 {
                                     value.hidden ?
-                                        // <button onClick={()=> saveDataFunc(value.id)} >SAVE</button>
                                         <button onClick={()=> saveDataFunc(value.id)} className="buttonLeft">SAVE</button>
                                         :
                                         <button onClick={()=>  changeInput(value.id)} className="buttonLeft">EDIT</button>
                                 }
 
-                                <button className="buttonRight">PAYMENTS</button>
+                                <button className="buttonRight" onClick={()=> {
+                                    setModalHidden(!modalHidden)
+                                    changeAllDataFunc({type: 'userId', value: value.id})
+                                    dispatch(payGetFetch({id: value.id}))
+                                }} >PAYMENTS</button>
                             </Container.TextSection>
                         </Container.Section>
                     ))
                 }
             </Container>
+            <InView onChange={setInView} />
+            {getAllData?.status === 'loading' && <div style={{display: 'flex', justifyContent: 'center', padding: '10px'}}><Loading type={'bars'} color={'#000'} /></div>}
         </>
     )
 }
 
-
-//         <td>
-//             {
-//                 value.hidden ?
-//                     <button onClick={()=> saveDataFunc(value.id)} >OK</button>
-//                     :
-//                     <button onClick={()=>  changeInput(value.id) }>Edit</button>
-//             }
-//         </td>
-//         <td>
-//             <button onClick={()=> setModalHidden(!modalHidden) }>Payments</button>
-//         </td>
-
-// <table>
-//     <tbody>
-//     <tr>
-//         <td>Attachment: </td>
-//         <td>
-//             {
-//                 value?.attachment?.id
-//                     ?
-//                     <ModalImage
-//                         className={'img'}
-//                         small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachment?.id}`}
-//                         large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachment?.id}`}
-//                     />
-//                     :
-//                     <div>
-//                         <p>Img Not Fount</p>
-//                     </div>
-//             }
-//         </td>
-//     </tr>
-//     <tr>
-//         <td>Attachment Diploma: </td>
-//         <td>
-//             {
-//                 value?.attachmentDiploma?.id ?
-//                     <ModalImage
-//                         className={'img'}
-//                         small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentDiploma?.id}`}
-//                         large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentDiploma?.id}`}
-//                     />
-//                     :
-//                     <div>
-//                         <p>Img Not Fount</p>
-//                     </div>
-//             }
-//         </td>
-//     </tr>
-//
-//     <tr>
-//         <td>Attachment Passport: </td>
-//         <td>
-//             {
-//                 value?.attachmentPassport?.id
-//                     ?
-//                     <ModalImage
-//                         className={'img'}
-//                         small={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentPassport?.id}`}
-//                         large={`https://evrtourback.uz/api/v1/attachment/download/${value?.attachmentPassport?.id}`}
-//                     />
-//                     :
-//                     <div>
-//                         <p>Img Not Fount</p>
-//                     </div>
-//             }
-//         </td>
-//     </tr>
-//
-//     <tr>
-//         <td>First Name: </td>
-//         <>
-//             {
-//                 value.hidden ?
-//                     <input type="text" value={value.firstName} onChange={(e)=> changeUniqValue({type: 'firstName', value: e.target.value, id: value.id}) } />
-//                     :
-//                     <td>{value.firstName}</td>
-//             }
-//         </>
-//     </tr>
-//
-//     <tr>
-//         <td>Last Name: </td>
-//         <>
-//             {
-//                 value.hidden ?
-//                     <input type="text" value={value.lastName} onChange={(e)=> changeUniqValue({type: 'lastName', value: e.target.value, id: value.id}) } />
-//                     :
-//                     <td>{value.lastName}</td>
-//             }
-//         </>
-//     </tr>
-//
-//     <tr>
-//         <td>Patron: </td>
-//         <>
-//             {
-//                 value.hidden ?
-//                     <input type="text" value={value.patron} onChange={(e)=> changeUniqValue({type: 'patron', value: e.target.value, id: value.id}) } />
-//                     :
-//                     <td>{value.patron}</td>
-//             }
-//         </>
-//     </tr>
-//
-//     <tr>
-//         <td>Passport: </td>
-//         <>
-//             {
-//                 value.hidden ?
-//                     <input type="text" value={value.passportSeries} onChange={(e)=> changeUniqValue({type: 'passportSeries', value: e.target.value, id: value.id}) } />
-//                     :
-//                     <td>{value.passportSeries}</td>
-//             }
-//         </>
-//     </tr>
-//
-//     <tr>
-//         <>
-//             <td>Phone Number: </td>
-//             {
-//                 value.hidden ?
-//                     <input type="text" value={value.phoneNumber} onChange={(e)=> changeUniqValue({type: 'phoneNumber', value: e.target.value, id: value.id}) } />
-//                     :
-//                     <td>{value.phoneNumber}</td>
-//             }
-//         </>
-//     </tr>
-//
-//     <tr>
-//         <>
-//             <td>Phone Number: </td>
-//             {
-//                 value.hidden ?
-//                     <input type="text" value={value.extraPhoneNumber} onChange={(e)=> changeUniqValue({type: 'extraPhoneNumber', value: e.target.value, id: value.id}) } />
-//                     :
-//                     <td>{value.extraPhoneNumber}</td>
-//             }
-//         </>
-//     </tr>
-//
-//     <tr>
-//         <td>
-//             {
-//                 value.hidden ?
-//                     <button onClick={()=> saveDataFunc(value.id)} >OK</button>
-//                     :
-//                     <button onClick={()=>  changeInput(value.id) }>Edit</button>
-//             }
-//         </td>
-//         <td>
-//             <button onClick={()=> setModalHidden(!modalHidden) }>Payments</button>
-//         </td>
-//     </tr>
-//
-//     </tbody>
-// </table>
 
 export default GreenHomeComponent
