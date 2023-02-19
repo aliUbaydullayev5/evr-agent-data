@@ -30,7 +30,6 @@ const getAllData = createSlice({
             state.status = 'loading'
         },
         [getAllDataFetch.fulfilled]: (state, {payload})=> {
-            console.log(payload)
             if(payload.search){
                 if(payload.success === true && payload.data.length) {
                     state.status = 'success'

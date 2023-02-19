@@ -82,7 +82,6 @@ const ExitButton = styled.div`
 const Modal = styled.div`
   width: 100%;
   height: 700px;
-  border: 1px solid red;
   overflow-x: scroll;
   position: fixed;
   top: 100px;

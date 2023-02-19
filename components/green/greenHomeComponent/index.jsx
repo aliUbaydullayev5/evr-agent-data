@@ -2,15 +2,16 @@ import Container, {ExitButton, Modal} from './style'
 import {useDispatch, useSelector} from "react-redux"
 import React, {useEffect, useState} from "react"
 import {addPageCount, getAllDataFetch} from "@/redux/slice/getAllData"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import ModalImage from "react-modal-image"
-import {registerFetch} from "@/redux/slice/register"
+import { registerFetch } from "@/redux/slice/register"
 import CloseImg from '../../../assets/svg/close.svg'
-import Loading from "@/components/LoadingCom";
-import { InView } from "react-intersection-observer";
-import {payGetFetch} from "../../../redux/slice/payGetSlice";
-import {deployFileFetch} from "@/redux/slice/deployFile";
-import {startMessage} from "@/redux/slice/message";
+import Loading from "@/components/LoadingCom"
+import { InView } from "react-intersection-observer"
+import { payGetFetch } from "../../../redux/slice/payGetSlice"
+import { deployFileFetch } from "@/redux/slice/deployFile"
+import { startMessage } from "@/redux/slice/message"
+import { paySlicePostFetch } from '../../../redux/slice/getPaySlice'
 
 const GreenHomeComponent = () => {
 
@@ -143,15 +144,29 @@ const GreenHomeComponent = () => {
         }, 1000)
     }
 
+    const [payGenericDataState, setPayGenericDataState] = useState([])
     const findFileFunc = ({ file, by }) => dispatch(deployFileFetch({ file: file, by }));
-
 
     useEffect(()=> {
         if(payPostSlice.status === 'success') window.location.reload(true)
     }, [payPostSlice])
 
-    console.log(payGet, 'payGet')
+    useEffect(()=> {}, [])
 
+    const paymentsFunc = (id) => {
+        dispatch(payGetFetch({id}))
+
+    }
+
+    useEffect(()=> {
+        if(payGet.status == 'success') setPayGenericDataState(payGet.data)
+    }, [payGet])
+
+    useEffect(()=> {
+        if(payPostSlice.status === 'success') setPayGenericDataState(payGet.data)
+    }, [payPostSlice])
+
+    // dispatch(payGetFetch({id: value.id}))
 
 
     return(
@@ -170,14 +185,16 @@ const GreenHomeComponent = () => {
                         <input type="text" placeholder={'ta`rif'} onChange={(e)=> changeAllDataFunc({type: 'description', value: e.target.value})} />
                         <input type="type" placeholder={'tolangan turi'} onChange={(e)=> changeAllDataFunc({type: 'paymentType', value: e.target.value})} />
                         <input type="file" onChange={(e) => findFileFunc({ file: e, by: 'priceFileId' })} />
-                        <button onClick={()=> dispatch(paySlicePostFetch({data: payState}))}>Saqlash</button>
+                        <button onClick={()=> {
+                            dispatch(paySlicePostFetch({data: payState}))
+                        }}>Saqlash</button>
 
                         <div className={'modalSection'}>
                             {
                                 payGet.status === 'success' &&
                                 <div>
                                     {
-                                        payGet.data.map((value)=> (
+                                        payGenericDataState.map((value)=> (
                                             <div key={value.id}>
                                                 <p><span className={'title'}>tolov</span> : {value.paidAmount}</p>
                                                 <p><span className={'title'}>tolov turi</span> : {value.paymentType}</p>
@@ -217,7 +234,6 @@ const GreenHomeComponent = () => {
                                         <p>Img Not Fount</p>
                                     </div>
                             }
-
                             {
                                 value?.attachmentDiploma?.id ?
                                     <div className={'mainImgDiv'}>
@@ -322,7 +338,7 @@ const GreenHomeComponent = () => {
                                 <button className="buttonRight" onClick={()=> {
                                     setModalHidden(!modalHidden)
                                     changeAllDataFunc({type: 'userId', value: value.id})
-                                    dispatch(payGetFetch({id: value.id}))
+                                    paymentsFunc(value.id)
                                 }} >PAYMENTS</button>
                             </Container.TextSection>
                         </Container.Section>
