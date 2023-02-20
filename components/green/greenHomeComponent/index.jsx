@@ -164,7 +164,6 @@ const GreenHomeComponent = () => {
     }, [payPostSlice])
 
     const saqlashFunc = () => {
-        console.log(payState)
         if(payState.paidAmount === 0 || payState.paidAmount.toString() === '') return dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
         if(payState.description.length < 3) return  dispatch(startMessage({type: 'warning', message: 'Batafsil ni toldiring', time: 2}))
         if(payState.paymentType.length < 3) return dispatch(startMessage({type: 'warning', message: 'Tolov turini toldiring', time: 2}))

@@ -77,9 +77,7 @@ const BlueHomeComponent = () => {
             })
             window.location.reload(true)
         }
-        if(register.status === 'error' || register.status === 'warning'){
-            dispatch(startMessage({type: 'warning', message: register.message, time: 2}))
-        }
+        if(register.status === 'error' || register.status === 'warning') dispatch(startMessage({type: 'warning', message: register.message, time: 2}))
     }, [register])
 
     const pushData = () => {
