@@ -16,10 +16,10 @@ const HomeComponent = () => {
         <Root>
             <Container className={'nocopy'}>
                 <Block back={'rgba(0, 39, 105, 0.65)'} onClick={()=> router.push('/home/blue')}>
-                    MALUMOT KOSHISH
+                    MALUMOT QOSHISH
                 </Block>
                 <Block back={'rgba(20,152,0,0.65)'} onClick={()=> router.push('/home/green')} >
-                    MALUMOT KORISH
+                    MALUMOT QORISH
                 </Block>
 
                 <div className={'lineImg'}>

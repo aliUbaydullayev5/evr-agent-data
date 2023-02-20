@@ -164,11 +164,10 @@ const GreenHomeComponent = () => {
     }, [payPostSlice])
 
     const saqlashFunc = () => {
-        dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
-        if(payState.paidAmount.length !== 0) return dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
+        console.log(payState)
+        if(payState.paidAmount === 0 || payState.paidAmount.toString() === '') return dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
         if(payState.description.length < 3) return  dispatch(startMessage({type: 'warning', message: 'Batafsil ni toldiring', time: 2}))
         if(payState.paymentType.length < 3) return dispatch(startMessage({type: 'warning', message: 'Tolov turini toldiring', time: 2}))
-        if(payState.priceFileId.length) return dispatch(startMessage({type: 'warning', message: 'Check file ni yuklang', time: 2}))
         dispatch(paySlicePostFetch({data: payState}))
     }
 
@@ -185,7 +184,7 @@ const GreenHomeComponent = () => {
                     <div className="insetDiv">
                         <CloseImg className={'closeImg'} onClick={()=> setModalHidden(!modalHidden) } />
                         <input type="number" placeholder={'pull narxi'} onChange={(e)=> changeAllDataFunc({type: 'paidAmount', value: Number(e.target.value) })} />
-                        <input type="text" placeholder={'ta`rif'} onChange={(e)=> changeAllDataFunc({type: 'description', value: e.target.value})} />
+                        <input type="text" placeholder={'tarif'} onChange={(e)=> changeAllDataFunc({type: 'description', value: e.target.value})} />
                         <input type="type" placeholder={'tolangan turi'} onChange={(e)=> changeAllDataFunc({type: 'paymentType', value: e.target.value})} />
 
                         <label className="custom-file-upload">
@@ -209,11 +208,17 @@ const GreenHomeComponent = () => {
                                                 <p><span className={'title'}>tolov</span> : {value.paidAmount}</p>
                                                 <p><span className={'title'}>tolov turi</span> : {value.paymentType}</p>
                                                 <p><span className={'title'}>description</span> : {value.description}</p>
-                                                <ModalImage
-                                                    className={'img'}
-                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.id}`}
-                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.id}`}
-                                                />
+                                                {
+                                                    value?.priceFile?.id ?
+                                                        <ModalImage
+                                                            className={'img'}
+                                                            small={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.id}`}
+                                                            large={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.id}`}
+                                                        />
+                                                        :
+                                                        <h1>Rasim topilmadi</h1>
+                                                }
+
                                             </div>
                                         ))
                                     }
