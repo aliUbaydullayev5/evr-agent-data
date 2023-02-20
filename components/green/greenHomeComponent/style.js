@@ -18,6 +18,7 @@ const Container = styled.div`
 
 Container.Section = styled.div`
   width: 300px;
+  min-height: 450px;
   background: rgba(0, 102, 255, 0.1);
   border: 3px solid rgba(0, 102, 255, 0.1);
   box-shadow: 0 1px 10px 1px rgba(13, 11, 107, 0.2);
@@ -223,13 +224,12 @@ Container.TextSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 38px 10px 6px;
   gap: 13px;
   isolation: isolate;
   position: relative;
   
   width: 260px;
-  height: 262px;
+  padding: 38px 10px 50px 10px;
 
   background: rgba(224, 224, 224, 0.48);
   border-radius: 15px;
