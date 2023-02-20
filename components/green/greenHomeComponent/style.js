@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 95%;
-  margin: 100px auto 10px auto;
+  margin: 20px auto;
   min-height: 400px;
   border-radius: 10px;
   background-color: #f6f6f6;
@@ -11,7 +11,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
-  
+  @media only screen and (max-width: 800px) {
+    margin: 0 auto 10px auto;
+  }
 `
 
 Container.Section = styled.div`
@@ -88,15 +90,20 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  padding: 20px;
   align-items: center;
   z-index: 99999;
-  
-  .modalSection{
+
+  .modalSection {
+    max-height: 400px;
+    overflow-x: scroll;
     width: 400px;
-    .title{
+
+    .title {
       font-weight: bold;
     }
   }
+
   .insetDiv {
     min-width: 300px;
     background-color: rgb(40, 40, 40);
@@ -112,6 +119,45 @@ const Modal = styled.div`
     padding: 20px;
     gap: 20px;
 
+    > input {
+      width: 368px;
+      background: #FFFFFF;
+      border: 1px solid #CCCCCC;
+      border-radius: 8px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      /* identical to box height, or 150% */
+      padding: 12px;
+      color: #333333;
+    }
+
+    .fileInput[type="file"] {
+      display: none !important;
+    }
+
+    .custom-file-upload {
+      border: 1px solid #ccc !important;
+      background: #bdbdbd;
+      display: inline-block !important;
+      padding: 15px !important;
+      width: 368px !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+    }
+
+    .fileInput {
+      width: 368px !important;
+      background: #FFFFFF;
+      border: 1px solid #CCCCCC !important;
+      border-radius: 8px !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      /* identical to box height, or 150% */
+      padding: 12px !important;
+      color: #333333 !important;
+    }
+
     .closeImg {
       position: absolute;
       top: 20px;
@@ -119,13 +165,17 @@ const Modal = styled.div`
       cursor: pointer;
     }
 
-    input {
-      background-color: #c0c0c0;
-      border-radius: 5px;
-      padding: 4px 8px;
-      border: 0;
-      font-size: 20px;
-      margin: 0 3px;
+    > input {
+      width: 368px;
+      background: #FFFFFF;
+      border: 1px solid #CCCCCC;
+      border-radius: 8px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      /* identical to box height, or 150% */
+      padding: 12px;
+      color: #333333;
     }
 
     > div {
@@ -134,6 +184,40 @@ const Modal = styled.div`
       border-radius: 5px;
     }
   }
+
+  .img {
+    width: 100%;
+    height: 60px;
+  }
+
+  .mapDimPay {
+    border-bottom: 2px solid black;
+    margin: 10px 0 20px 0;
+  }
+  
+  button{
+    transition: .2s;
+    cursor: pointer;
+    width: 368px;
+    height: 56px;
+    border: 0;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+
+    background: #7A5CFA;
+    border-radius: 8px;
+
+    :hover{
+      transform: scale(1.01);
+    }
+    :active{
+      transform: scale(1.2);
+    }
+  }
+  
 `
 Container.TextSection = styled.div`
   display: flex;
@@ -208,7 +292,7 @@ Container.SearchSection = styled.div`
   justify-content: center;
   >input{
     height: 50px;
-    width: 300px;
+    width: 400px;
     font-size: 22px;
     border-radius: 10px;
     border: 2px solid gray;
@@ -216,6 +300,8 @@ Container.SearchSection = styled.div`
   }
   @media only screen and (max-width: 800px) {
     justify-content: start;
+    padding: 90px 20px 20px 20px;
+    
   }
 `
 

@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 export const paySlicePostFetch = createAsyncThunk('paySlicePostFetch', async ({data})=> {
-    console.log(data, 'data')
     return await fetch(`https://evrtourback.uz/api/v1/payment/create-payment-history`, {
         method: 'POST',
         headers: {

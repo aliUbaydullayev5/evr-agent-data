@@ -10,9 +10,8 @@ import Loading from "@/components/LoadingCom"
 import { InView } from "react-intersection-observer"
 import { payGetFetch } from "../../../redux/slice/payGetSlice"
 import { deployFileFetch } from "@/redux/slice/deployFile"
-import { startMessage } from "@/redux/slice/message"
+import { startMessage } from "../../../redux/slice/message"
 import { paySlicePostFetch } from '../../../redux/slice/getPaySlice'
-
 const GreenHomeComponent = () => {
 
     const router = useRouter()
@@ -24,6 +23,7 @@ const GreenHomeComponent = () => {
     const deployFile = useSelector((store)=> store.deployFile)
     const payPostSlice = useSelector((store)=> store.payPostSlice)
     const payGet = useSelector((store)=> store.payGet)
+    const [payGenericDataState, setPayGenericDataState] = useState([])
 
     const [data, setData] = useState([])
     const [modalHidden, setModalHidden] = useState(false)
@@ -47,6 +47,8 @@ const GreenHomeComponent = () => {
             hidden: false
         })))
     }, [getAllData])
+
+
 
     useEffect(()=> {
         setData(getAllData.data.map((value)=> ({
@@ -144,18 +146,13 @@ const GreenHomeComponent = () => {
         }, 1000)
     }
 
-    const [payGenericDataState, setPayGenericDataState] = useState([])
     const findFileFunc = ({ file, by }) => dispatch(deployFileFetch({ file: file, by }));
 
     useEffect(()=> {
         if(payPostSlice.status === 'success') window.location.reload(true)
     }, [payPostSlice])
-
-    useEffect(()=> {}, [])
-
     const paymentsFunc = (id) => {
         dispatch(payGetFetch({id}))
-
     }
 
     useEffect(()=> {
@@ -166,15 +163,21 @@ const GreenHomeComponent = () => {
         if(payPostSlice.status === 'success') setPayGenericDataState(payGet.data)
     }, [payPostSlice])
 
-    // dispatch(payGetFetch({id: value.id}))
-
+    const saqlashFunc = () => {
+        dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
+        if(payState.paidAmount.length !== 0) return dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
+        if(payState.description.length < 3) return  dispatch(startMessage({type: 'warning', message: 'Batafsil ni toldiring', time: 2}))
+        if(payState.paymentType.length < 3) return dispatch(startMessage({type: 'warning', message: 'Tolov turini toldiring', time: 2}))
+        if(payState.priceFileId.length) return dispatch(startMessage({type: 'warning', message: 'Check file ni yuklang', time: 2}))
+        dispatch(paySlicePostFetch({data: payState}))
+    }
 
     return(
         <>
             <Container.SearchSection>
-                <input type={'text'} placeholder={'Search name, phone, passport'} onChange={(e)=> searchFunc(e.target.value)} />
+                <input type={'text'} placeholder={'Qidirish, Isim, T.Raqam, Passport'} onChange={(e)=> searchFunc(e.target.value)} />
             </Container.SearchSection>
-            <ExitButton onClick={()=> router.push('/home')}>Exit</ExitButton>
+            <ExitButton onClick={()=> router.push('/home')}>Ortga qaytish</ExitButton>
             {
                 modalHidden
                 &&
@@ -184,30 +187,39 @@ const GreenHomeComponent = () => {
                         <input type="number" placeholder={'pull narxi'} onChange={(e)=> changeAllDataFunc({type: 'paidAmount', value: Number(e.target.value) })} />
                         <input type="text" placeholder={'ta`rif'} onChange={(e)=> changeAllDataFunc({type: 'description', value: e.target.value})} />
                         <input type="type" placeholder={'tolangan turi'} onChange={(e)=> changeAllDataFunc({type: 'paymentType', value: e.target.value})} />
-                        <input type="file" onChange={(e) => findFileFunc({ file: e, by: 'priceFileId' })} />
-                        <button onClick={()=> {
-                            dispatch(paySlicePostFetch({data: payState}))
-                        }}>Saqlash</button>
+
+                        <label className="custom-file-upload">
+                            <input className={'fileInput'} type="file" onChange={(e) => findFileFunc({ file: e, by: 'priceFileId' })} />
+                            Tolov Check <strong>FILE {payState.priceFileId.length ? 'YUKLANDI' : deployFile.status === 'loading' && 'LOADING ...'   } </strong>
+                        </label>
+
+                        <button onClick={()=> saqlashFunc()
+                        }>Saqlash</button>
 
                         <div className={'modalSection'}>
                             {
-                                payGet.status === 'success' &&
+                                payGet.status === 'loading' && <div style={{display: 'flex', justifyContent: 'center', padding: '10px'}}><Loading type={'bars'} color={'#000'} /></div>
+                            }
+                            {
+                                payGet.status === 'success' && payGenericDataState.length ?
                                 <div>
                                     {
                                         payGenericDataState.map((value)=> (
-                                            <div key={value.id}>
+                                            <div key={value.id} className={'mapDimPay'}>
                                                 <p><span className={'title'}>tolov</span> : {value.paidAmount}</p>
                                                 <p><span className={'title'}>tolov turi</span> : {value.paymentType}</p>
                                                 <p><span className={'title'}>description</span> : {value.description}</p>
                                                 <ModalImage
                                                     className={'img'}
-                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.updatedById}`}
-                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.updatedById}`}
+                                                    small={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.id}`}
+                                                    large={`https://evrtourback.uz/api/v1/attachment/download/${value?.priceFile?.id}`}
                                                 />
                                             </div>
                                         ))
                                     }
                                 </div>
+                                :
+                                    <h1>Tolov Qilinmagan</h1>
                             }
                         </div>
                     </div>
@@ -345,7 +357,9 @@ const GreenHomeComponent = () => {
                     ))
                 }
             </Container>
+
             <InView onChange={setInView} />
+
             {getAllData?.status === 'loading' && <div style={{display: 'flex', justifyContent: 'center', padding: '10px'}}><Loading type={'bars'} color={'#000'} /></div>}
         </>
     )
