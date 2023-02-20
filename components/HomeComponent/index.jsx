@@ -16,17 +16,17 @@ const HomeComponent = () => {
         <Root>
             <Container className={'nocopy'}>
                 <Block back={'rgba(0, 39, 105, 0.65)'} onClick={()=> router.push('/home/blue')}>
-                    ADD DATA
+                    MALUMOT KOSHISH
                 </Block>
                 <Block back={'rgba(20,152,0,0.65)'} onClick={()=> router.push('/home/green')} >
-                    VIEW DATA
+                    MALUMOT KORISH
                 </Block>
 
                 <div className={'lineImg'}>
                     <LineImg />
                 </div>
                 <LogOutButton onClick={()=> clearTokenLogout()}>
-                    Log Out
+                    CHIQIB KETISH
                 </LogOutButton>
             </Container>
         </Root>
