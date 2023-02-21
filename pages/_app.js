@@ -12,6 +12,7 @@ export default function App({ Component, pageProps }) {
     if(!(localStorage.getItem('accessToken'))) {
       router.push('/login')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <Provider store={store}>
