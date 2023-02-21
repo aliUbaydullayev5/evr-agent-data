@@ -19,7 +19,7 @@ const HomeComponent = () => {
                     MALUMOT QOSHISH
                 </Block>
                 <Block back={'rgba(20,152,0,0.65)'} onClick={()=> router.push('/home/green')} >
-                    MALUMOT QORISH
+                    MALUMOT KORISH
                 </Block>
 
                 <div className={'lineImg'}>

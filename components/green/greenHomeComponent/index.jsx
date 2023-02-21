@@ -346,16 +346,16 @@ const GreenHomeComponent = () => {
 
                                 {
                                     value.hidden ?
-                                        <button onClick={()=> saveDataFunc(value.id)} className="buttonLeft">SAVE</button>
+                                        <button onClick={()=> saveDataFunc(value.id)} className="buttonLeft">SAQLASH</button>
                                         :
-                                        <button onClick={()=>  changeInput(value.id)} className="buttonLeft">EDIT</button>
+                                        <button onClick={()=>  changeInput(value.id)} className="buttonLeft">TAHRIRLASH</button>
                                 }
 
                                 <button className="buttonRight" onClick={()=> {
                                     setModalHidden(!modalHidden)
                                     changeAllDataFunc({type: 'userId', value: value.id})
                                     paymentsFunc(value.id)
-                                }} >PAYMENTS</button>
+                                }} >TOLOVLAR</button>
                             </Container.TextSection>
                         </Container.Section>
                     ))
