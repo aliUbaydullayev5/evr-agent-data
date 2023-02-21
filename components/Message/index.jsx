@@ -21,9 +21,7 @@ const Message = () => {
         }, time)
     }, [hiddenBool])
 
-    const closeFunc = () => {
-        dispatch(resetAllData())
-    }
+    const closeFunc = () => dispatch(resetAllData())
 
     const iconFunc = (type) => {
         switch (type){
