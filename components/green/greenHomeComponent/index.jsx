@@ -161,7 +161,9 @@ const GreenHomeComponent = () => {
 
     useEffect(()=> {
         if(payPostSlice.status === 'success') setPayGenericDataState(payGet.data)
-    }, [payPostSlice, paySlicePost])
+    }, [payPostSlice])
+
+    console.log(payPostSlice)
 
     const saqlashFunc = () => {
         if(payState.paidAmount === 0 || payState.paidAmount.toString() === '') return dispatch(startMessage({type: 'warning', message: 'Narxini toldiring', time: 2}))
